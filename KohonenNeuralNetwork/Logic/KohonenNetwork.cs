@@ -17,6 +17,16 @@ namespace Logic
 			_inputs = new Input[inputsCount];
 			_neurons = new Neuron[neuronsCount];
 
+			for (int i = 0; i < inputsCount; i++)
+			{
+				_inputs[i] = new Input();
+			}
+
+			for (int i = 0; i < neuronsCount; i++)
+			{
+				_neurons[i] = new Neuron();
+			}
+
 			Init(inputsCount, neuronsCount);
 		}
 
@@ -34,9 +44,10 @@ namespace Logic
 				_inputs[i].OutgoingLinks = outgoingLinks;
 				for (int j = 0; j < neuronsCount; j++)
 				{
+					outgoingLinks[j] = new Link();
 					outgoingLinks[j].Neuron = _neurons[j];
 					outgoingLinks[j].Weight = rnd.NextDouble()/1000;
-					_neurons[j].IncomingLinks[i] = outgoingLinks[i];
+					_neurons[j].IncomingLinks[i] = outgoingLinks[j];
 				}
 			}
 		}
