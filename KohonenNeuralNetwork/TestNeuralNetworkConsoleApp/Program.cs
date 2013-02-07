@@ -10,25 +10,45 @@ namespace TestNeuralNetworkConsoleApp
 	{
 		static void Main(string[] args)
 		{
-			KohonenNetwork kohonenNetwork = new KohonenNetwork(4,16);
-			kohonenNetwork.Study(new[] { 0, 0, 0, 0 }, 0);
-			kohonenNetwork.Study(new[] { 0, 0, 0, 1 }, 1);
-			kohonenNetwork.Study(new[] { 0, 0, 1, 0 }, 2);
-			kohonenNetwork.Study(new[] { 0, 0, 1, 1 }, 3);
-			kohonenNetwork.Study(new[] { 0, 1, 0, 0 }, 4);
-			kohonenNetwork.Study(new[] { 0, 1, 0, 1 }, 5);
-			kohonenNetwork.Study(new[] { 0, 1, 1, 0 }, 6);
-			kohonenNetwork.Study(new[] { 0, 1, 1, 1 }, 7);
-			kohonenNetwork.Study(new[] { 1, 0, 0, 0 }, 8);
-			kohonenNetwork.Study(new[] { 1, 0, 0, 1 }, 9);
-			kohonenNetwork.Study(new[] { 1, 0, 1, 0 }, 10);
-			kohonenNetwork.Study(new[] { 1, 0, 1, 1 }, 11);
-			kohonenNetwork.Study(new[] { 1, 1, 0, 0 }, 12);
-			kohonenNetwork.Study(new[] { 1, 1, 0, 1 }, 13);
-			kohonenNetwork.Study(new[] { 1, 1, 1, 0 }, 14);
-			kohonenNetwork.Study(new[] { 1, 1, 1, 1 }, 15);
-			Console.WriteLine(kohonenNetwork.Handle(new[]{ 1, 0, 1, 0}));
+			int count = 10000;
+			KohonenNetwork kohonenNetwork = new KohonenNetwork(count,10);
+
+			for (int i = 0; i < count; i++)
+			{
+				int[] test;
+				var indexMax = Test(count, out test);
+				kohonenNetwork.Study(test, indexMax);
+			}
+
+			int countTests = 10000;
+			int correct = 0;
+			for (int i = 0; i < countTests; i++)
+			{
+				int[] example;
+				int result = Test(count, out example);
+				int t = kohonenNetwork.Handle(example);
+				if (t == result) correct++;
+				//Console.WriteLine(kohonenNetwork.Handle(example));
+				//Console.WriteLine("true:{0}", result);
+				//Console.ReadKey();
+			}
+			Console.WriteLine((double)correct/countTests);
 			Console.ReadKey();
+
+		}
+
+		private static int Test(int count, out int[] test)
+		{
+			Random rnd = new Random(DateTime.Now.Millisecond);
+			int a = rnd.Next()%count;
+			int b = rnd.Next()%count;
+			int c = rnd.Next()%count;
+			test = new int[count];
+			for (int j = 0; j < test.Length; j++)
+			{
+				test[j] = (int)(c*Math.Pow(j - a,2)) + b;
+			}
+			return a / 100000;
 		}
 	}
 }
