@@ -39,7 +39,8 @@ namespace TestNeuralNetworkConsoleApp
 
 		private static int Test(int count, out int[] test)
 		{
-			Random rnd = new Random(DateTime.Now.Millisecond);
+			long seed = DateTime.Now.Ticks;
+			Random rnd = new Random((int)seed);
 			int a = rnd.Next()%count;
 			int b = rnd.Next()%count;
 			int c = rnd.Next()%count;
